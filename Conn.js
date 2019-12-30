@@ -1,13 +1,16 @@
 const MysqlLayer = require('./MysqlLayer')
 
 class Conn extends MysqlLayer {
-  constructor(params) {
+  constructor(params = {}) {
     super(params)
+
+    this.end = this.end.bind(this)
+    this.asyncQuery = this.asyncQuery.bind(this)
 
     super.createConnection()
   }
 
-  end = cb => {
+  end(cb) {
     const fn = this.end
 
     if (cb === undefined) {
@@ -19,16 +22,16 @@ class Conn extends MysqlLayer {
       })
     }
 
-    if (this.connection.state === 'disconeccted') {
-      return cb('Connection Already Disconnected', this.connection.state)
+    if (super.getConnection().state === 'disconeccted') {
+      return cb('Connection Already Disconnected', super.getConnection().state)
     } else {
-      this.connection.end()
+      super.getConnection().end()
     }
 
-    return cb(false, this.connection.state)
+    return cb(false, super.getConnection().state)
   }
 
-  asyncQuery = (query, bindings, cb) => {
+  asyncQuery(query, bindings, cb) {
     const fn = this.asyncQuery
 
     const bindingsCBArray = super.checkArgs(bindings, cb)
@@ -44,7 +47,7 @@ class Conn extends MysqlLayer {
       })
     }
 
-    this.connection.query(query, bindings, cb)
+    super.getConnection().query(query, bindings, cb)
   }
 }
 

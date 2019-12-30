@@ -1,26 +1,18 @@
 const mysql = require('mysql')
 
 class MysqlLayer {
-  constructor(params) {
-    this.connection = false
-    this.pool = false
+  constructor(params = {}) {
+    this.mysql = mysql
     this.params = params
-  }
+    this.pool = false
+    this.connection = false
 
-  createConnection() {
-    this.connection = mysql.createConnection(this.params)
-  }
-
-  createPool() {
-    this.pool = mysql.createPool(this.params)
-  }
-
-  pool() {
-    return this.pool
-  }
-
-  connection() {
-    return this.connection
+    this.checkArgs = this.checkArgs.bind(this)
+    this.isFn = this.isFn.bind(this)
+    this.createConnection = this.createConnection.bind(this)
+    this.createPool = this.createPool.bind(this)
+    this.getPool = this.getPool.bind(this)
+    this.getConnection = this.getConnection.bind(this)
   }
 
   checkArgs(bindings, cb) {
@@ -29,6 +21,22 @@ class MysqlLayer {
 
   isFn(arg) {
     return typeof arg === 'function'
+  }
+
+  createConnection() {
+    this.connection = this.mysql.createConnection(this.params)
+  }
+
+  createPool() {
+    this.pool = this.mysql.createPool(this.params)
+  }
+
+  getPool() {
+    return this.pool
+  }
+
+  getConnection() {
+    return this.connection
   }
 }
 

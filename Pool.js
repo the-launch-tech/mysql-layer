@@ -1,13 +1,21 @@
 const MysqlLayer = require('./MysqlLayer')
 
 class Pool extends MysqlLayer {
-  constructor(params) {
+  constructor(params = {}) {
     super(params)
+
+    this.endPool = this.endPool.bind(this)
+    this.connectPool = this.connectPool.bind(this)
+    this.asyncQuery = this.asyncQuery.bind(this)
 
     super.createPool()
   }
 
-  connectPool = cb => {
+  endPool(cb) {
+    this.getPool().end(cb)
+  }
+
+  connectPool(cb) {
     const fn = this.connectPool
 
     if (cb === undefined) {
@@ -21,10 +29,10 @@ class Pool extends MysqlLayer {
       })
     }
 
-    this.pool.getConnection(cb)
+    super.getPool().getConnection(cb)
   }
 
-  asyncQuery = (query, bindings = [], cb) => {
+  asyncQuery(query, bindings = [], cb) {
     const fn = this.asyncQuery
 
     const bindingsCBArray = super.checkArgs(bindings, cb)
@@ -40,8 +48,8 @@ class Pool extends MysqlLayer {
       })
     }
 
-    this.pool.getConnection((connectionError, connection) => {
-      if (connectionError) reject(connectionError)
+    super.getPool().getConnection((connectionError, connection) => {
+      if (connectionError) throw connectionError
       connection.query(query, bindings, (queryError, data) => {
         if (super.isFn(cb)) {
           cb(queryError, data, connection.release)
