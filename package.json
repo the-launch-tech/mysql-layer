@@ -1,6 +1,6 @@
 {
   "name": "the_launch-mysql-layer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Layer for easier mysql access",
   "main": "index.js",
   "dependencies": {
