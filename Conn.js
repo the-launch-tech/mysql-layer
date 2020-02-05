@@ -40,9 +40,9 @@ class Conn extends MysqlLayer {
 
     if (cb === undefined) {
       return new Promise((resolve, reject) => {
-        fn(query, bindings, (err, results, fields) => {
+        fn(query, bindings, (err, data, fields) => {
           if (err) reject(err)
-          resolve({ results, fields })
+          resolve(data)
         })
       })
     }
