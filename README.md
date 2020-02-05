@@ -6,7 +6,7 @@ It allows you to establish a connection and then handle asynchronous queries wit
 
 ## Installation
 
-`npm i --save mysql-layer`
+`npm i --save the_launch-mysql-layer`
 
 ## Usage
 
@@ -15,9 +15,9 @@ It allows you to establish a connection and then handle asynchronous queries wit
 
 ### Import Package(s)
 
-- `import { Conn } from 'mysql-layer'`
-- `import { Pool } from 'mysql-layer'`
-- `import Mysql from 'mysql-layer'`
+- `import { Conn } from 'the_launch-mysql-layer'`
+- `import { Pool } from 'the_launch-mysql-layer'`
+- `import Mysql from 'the_launch-mysql-layer'`
 
 ## History
 

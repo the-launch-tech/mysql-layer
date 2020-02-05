@@ -1,5 +1,5 @@
 {
-  "name": "mysql-layer",
+  "name": "the_launch-mysql-layer",
   "version": "1.0.0",
   "description": "Layer for easier mysql access",
   "main": "index.js",
